@@ -86,12 +86,14 @@ jobs:
           echo $tar_filename
           tar -czvf "$tar_filename" temp/package temp/example
           ls
+          echo ${{ github.repository }}
+          echo ${{ github.head_ref || github.ref_name }}
 
       # Commit all changed files back to the repository
       - name: Commit changes
         uses: planetscale/ghcommit-action@v0.1.33
         with:
-          commit_message: "GitHub Action: Find and Replace"
+          commit_message: "GitHub Action: Create Package"
           repo: ${{ github.repository }}
           branch: ${{ github.head_ref || github.ref_name }}
         env:
