@@ -85,6 +85,7 @@ jobs:
           tar_filename="${name} ${version}.tar.gz"
           echo $tar_filename
           tar -czvf "$tar_filename" temp/package temp/example
+          ls
 
       # Commit all changed files back to the repository
       - name: Commit changes
