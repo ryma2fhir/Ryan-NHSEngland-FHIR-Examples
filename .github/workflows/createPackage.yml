@@ -87,7 +87,7 @@ jobs:
         run: |
           name=$(jq -r '.name' package.json)
           version=$(jq -r '.version' package.json)
-          tar_filename="${name} ${version}.tar.gz"
+          tar_filename="${name}_${version}.tar.gz"
           tar -czvf "$tar_filename" temp/package temp/example
 
       # Commit all changed files back to the repository
