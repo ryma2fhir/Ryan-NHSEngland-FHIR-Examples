@@ -16,7 +16,10 @@ jobs:
           echo "This workflow should not be triggered with workflow_dispatch on the
           main branch"
           exit 1
-          
+      
+      - name: check files
+        run: ls  
+        
       - name: Check package.json mandatory requirements
         run: >
           check_attribute() {
