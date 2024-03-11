@@ -18,6 +18,6 @@ The CapabilityStatement is used by the validation tool to check which profile to
   - Choose your branch
   - Click Run workflow (green button).
 - If successful, go to the [main page](https://github.com/ryma2fhir/Ryan-NHSEngland-FHIR-Examples) and choose your branch
-- download the package file [filename].tar.gz
+- download the package file [filename].tar.gz and upload to your server, e.g. AWS S3
 
 More information on package creation, along with optional attributes for package.json, see [https://hl7.org/fhir/packages.html](https://hl7.org/fhir/packages.html).
