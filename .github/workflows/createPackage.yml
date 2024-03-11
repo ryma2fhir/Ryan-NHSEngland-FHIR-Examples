@@ -9,12 +9,12 @@ jobs:
     steps:
       - name: checkout repo
         uses: actions/checkout@v4
+        
       - name: Fail if branch main
         if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
         run: >
           echo "This workflow should not be triggered with workflow_dispatch on the
           main branch"
-
           exit 1
           
       - name: Check package.json mandatory requirements
@@ -28,6 +28,7 @@ jobs:
           }
 
           # Check if package.json exists
+          ls
           if [ ! -f "package.json" ]; then
             echo "Error: package.json file not found"
             exit 2
