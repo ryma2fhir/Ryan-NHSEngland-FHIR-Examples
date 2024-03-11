@@ -53,10 +53,10 @@ jobs:
         run: |
           mkdir -p temp
           mkdir -p temp/package/
-          find . -type f \( -name "*.json" -o -name "*.xml" \) -not -path "./examples/*" -name "${{github.event.inputs.fileWildcard}}" | xargs -I {} cp {} temp/package/
-          cp package.json temp/package/
+          find . -type f \( -name "*.json" -o -name "*.xml" \) -not -path "./examples/*" | xargs -I {} cp {} temp/package/
+          #cp package.json temp/package/
           mkdir -p temp/example
-          find ./examples -type f -name "${{github.event.inputs.fileWildcard}}" | xargs -I {} cp {} temp/example/
+          find ./examples -type f \( -name "*.json" -o -name "*.xml" \) | xargs -I {} cp {} temp/example/
 
       - name: Find and convert XML files to JSON
         run: |
