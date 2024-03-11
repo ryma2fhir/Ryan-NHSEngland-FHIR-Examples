@@ -1,26 +1,23 @@
+---
 name: Create FHIR Package
-
-# Controls when the workflow will run
 on:
   workflow_dispatch:
     inputs: {}
-      
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: checkout repo
         uses: actions/checkout@v4
-      
       - name: Fail if branch main
         if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
-        run: |
-          echo "This workflow should not be triggered with workflow_dispatch on the main branch"
-          exit 1
+        run: >
+          echo "This workflow should not be triggered with workflow_dispatch on the
+          main branch"
 
+          exit 1
       - name: Check package.json mandatory requirements
-        run: |
+        run: >
           check_attribute() {
             local value=$(jq -r ".$1" package.json)
             if [[ -z "$value" ]]; then
@@ -29,32 +26,44 @@ jobs:
             fi
           }
 
+
           # Check if package.json exists
+
           if [ ! -f "package.json" ]; then
             echo "Error: package.json file not found"
             exit 2
           fi
 
+
           # Check required attributes
+
           check_attribute "name"
+
           check_attribute "version"
+
           check_attribute "description"
+
           check_attribute "author"
+
           check_attribute "version"
+
 
           echo "All required attributes are present and non-empty in package.json"
-
       - name: create package folder and copy files
-        run: |
+        run: >
           mkdir -p temp
-          mkdir -p temp/package/
-          find . -type f \( -name "*.json" -o -name "*.xml" \) -not -path "./examples/*" -name "${{github.event.inputs.fileWildcard}}" | xargs -I {} cp {} temp/package/
-          cp package.json temp/package/
-          mkdir -p temp/example
-          find ./examples -type f -name "${{github.event.inputs.fileWildcard}}" | xargs -I {} cp {} temp/example/
 
+          mkdir -p temp/package/
+
+          find . -type f \( -name "*.json" -o -name "*.xml" \) -not -path "./examples/*" -name "${{github.event.inputs.fileWildcard}}" | xargs -I {} cp {} temp/package/
+
+          cp package.json temp/package/
+
+          mkdir -p temp/example
+
+          find ./examples -type f -name "${{github.event.inputs.fileWildcard}}" | xargs -I {} cp {} temp/example/
       - name: Find and convert XML files to JSON
-        run: |
+        run: >
           post_xml_files() {
             local dir=$1
             local files=($(find "$dir" -type f -name "*.xml"))
@@ -70,9 +79,10 @@ jobs:
               echo "File $file deleted"
             done
           }
-          post_xml_files ./temp/package
-          post_xml_files ./temp/example
 
+          post_xml_files ./temp/package
+
+          post_xml_files ./temp/example
       - name: tarbell package
         run: |
           name=$(jq -r '.name' package.json)
@@ -80,8 +90,6 @@ jobs:
           tar_filename="${name}_${version}.tar.gz"
           tar -czvf "$tar_filename" temp/package temp/example
           rm temp
-
-      # Commit all changed files back to the repository
       - name: Create branch and commit
         run: |
           git config --global user.name "Create.Package"
