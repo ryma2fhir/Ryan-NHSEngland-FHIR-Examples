@@ -30,7 +30,6 @@ jobs:
             fi
           }
 
-          # Check if package.json exists
           if [ ! -f "package.json" ]; then
             echo "Error: package.json file not found"
             exit 2
