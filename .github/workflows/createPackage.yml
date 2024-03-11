@@ -53,7 +53,7 @@ jobs:
         run: |
           mkdir -p temp
           mkdir -p temp/package/
-          find ./* -type f \( -name "*.json" -o -name "*.xml" \) -not -path "./examples/*" | xargs -I {} cp {} temp/package/
+          find . -maxdepth 1 -type f \( -name "*.json" -o -name "*.xml" \) -not -path "./examples/*" | xargs -I {} cp {} temp/package/
           #cp package.json temp/package/
           mkdir -p temp/example
           find ./examples -type f \( -name "*.json" -o -name "*.xml" \) | xargs -I {} cp {} temp/example/
